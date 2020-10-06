@@ -112,24 +112,28 @@ class FlutterBlue {
       throw e;
     }
 
-    yield* FlutterBlue.instance._methodStream
-        .where((m) => m.method == "ScanResult")
-        .map((m) => m.arguments)
-        .takeUntil(Rx.merge(killStreams))
-        .doOnDone(stopScan)
-        .map((buffer) => new protos.ScanResult.fromBuffer(buffer))
-        .map((p) {
-      final result = new ScanResult.fromProto(p);
-      final list = _scanResults.value;
-      int index = list.indexOf(result);
-      if (index != -1) {
-        list[index] = result;
-      } else {
-        list.add(result);
-      }
-      _scanResults.add(list);
-      return result;
-    });
+    try {
+      yield* FlutterBlue.instance._methodStream
+          .where((m) => m.method == "ScanResult")
+          .map((m) => m.arguments)
+          .takeUntil(Rx.merge(killStreams))
+          .doOnDone(stopScan)
+          .map((buffer) => new protos.ScanResult.fromBuffer(buffer))
+          .map((p) {
+        final result = new ScanResult.fromProto(p);
+        final list = _scanResults.value;
+        int index = list.indexOf(result);
+        if (index != -1) {
+          list[index] = result;
+        } else {
+          list.add(result);
+        }
+        _scanResults.add(list);
+        return result;
+      });
+    } catch (err) {
+      print('FLUTTER BLUE ERROR CAUGHT: ' + err.toString());
+    }
   }
 
   Future startScan({
