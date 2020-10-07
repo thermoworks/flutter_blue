@@ -780,7 +780,7 @@ public class FlutterBluePlugin implements FlutterPlugin, ActivityAware, MethodCa
                         Protos.ScanResult scanResult = ProtoMaker.from(result.getDevice(), result);
                         invokeMethodUIThread("ScanResult", scanResult.toByteArray());
                     } catch (Exception exception) {
-                        // malformed scan result, ignore
+                        // exception thrown while parsing the scan result. Ignore the result.
                         exception.printStackTrace();
                     }
                 }
