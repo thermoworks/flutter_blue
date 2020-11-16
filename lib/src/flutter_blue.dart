@@ -132,21 +132,19 @@ class FlutterBlue {
     });
   }
 
-  Future startScan({
+  Future<Stream<ScanResult>> startScan({
     ScanMode scanMode = ScanMode.lowLatency,
     List<Guid> withServices = const [],
     List<Guid> withDevices = const [],
     Duration timeout,
     bool allowDuplicates = false,
   }) async {
-    await scan(
-            scanMode: scanMode,
-            withServices: withServices,
-            withDevices: withDevices,
-            timeout: timeout,
-            allowDuplicates: allowDuplicates)
-        .drain();
-    return _scanResults.value;
+    return scan(
+        scanMode: scanMode,
+        withServices: withServices,
+        withDevices: withDevices,
+        timeout: timeout,
+        allowDuplicates: allowDuplicates);
   }
 
   /// Stops a scan for Bluetooth Low Energy devices
