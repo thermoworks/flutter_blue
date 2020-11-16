@@ -132,13 +132,13 @@ class FlutterBlue {
     });
   }
 
-  Future<Stream<ScanResult>> startScan({
+  Stream<ScanResult> startScan({
     ScanMode scanMode = ScanMode.lowLatency,
     List<Guid> withServices = const [],
     List<Guid> withDevices = const [],
     Duration timeout,
     bool allowDuplicates = false,
-  }) async {
+  }) {
     return scan(
         scanMode: scanMode,
         withServices: withServices,
